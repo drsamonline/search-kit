@@ -1,6 +1,7 @@
 # search-kit
 
 [![live](https://img.shields.io/badge/live-online-22c55e)](https://drsamonline.github.io/search-kit/)
+[![test](https://github.com/drsamonline/search-kit/actions/workflows/test.yml/badge.svg)](https://github.com/drsamonline/search-kit/actions/workflows/test.yml)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 **Ranked search over big corpora.** Zero dependencies. One file. An inverted index with prefix and fuzzy matching — the shared logic
