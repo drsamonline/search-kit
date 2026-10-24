@@ -41,6 +41,11 @@ ok("empty query returns nothing", idx.query("").length === 0);
 const str = S.index(["alpha", "beta", "alphabet"]);
 ok("string items work", str.query("alpha").length === 2);
 
+// tf-idf: a rare term is worth more than a common one, so the doc that carries it wins
+const tf = S.index([{ t: "common rare" }, { t: "common" }, { t: "common" }, { t: "common" }], { keys: ["t"] });
+const rr = tf.query("common rare");
+ok("tf-idf: the doc with the rare term ranks first", rr.length >= 1 && rr[0].item.t === "common rare", "score " + (rr[0] && rr[0].score));
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
 

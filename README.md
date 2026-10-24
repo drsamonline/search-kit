@@ -16,13 +16,13 @@ See `search-kit.js` for the full API and `test-node.js` for worked examples.
 - Inverted index, built once
 - exact + prefix matching
 - fuzzy (edit-distance 1)
-- multi-field, ranked results
+- multi-field, **tf-idf** ranked results (the ranking adopted from ml-kit)
 
 ## Verified
 
 ```
 node test-node.js
-11 passed, 0 failed
+12 passed, 0 failed
 ```
 
 ## Consumers
