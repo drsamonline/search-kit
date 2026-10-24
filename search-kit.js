@@ -13,7 +13,7 @@
   else root.Search = factory();
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
-  var S = { version: "0.1.0" };
+  var S = { version: "0.2.0" };
 
   function norm(s) { return String(s == null ? "" : s).toLowerCase(); }
   function tokenise(s) {
@@ -62,6 +62,14 @@
     });
     var vocab = Object.keys(postings);
 
+    // tf-idf weighting (adopted from ml-kit): a term that appears in few documents
+    // is worth more, and a hit in a long document is worth less. So a rare, exact
+    // term outranks a common one, which is what makes ranked search feel right.
+    function idf(term) {
+      var df = postings[term] ? Object.keys(postings[term]).length : 0;
+      return Math.log((1 + items.length) / (1 + df)) + 1;
+    }
+
     function candidates(term) {
       var docs = {}, any = false;
       if (postings[term]) {
@@ -96,8 +104,10 @@
       terms.forEach(function (term) {
         var c = candidates(term) || (qopts.fuzzy ? fuzzyCandidates(term) : null);
         if (!c) return;
+        var w = c.weight * idf(term);            // tf-idf: term rarity x match quality
         Object.keys(c.docs).forEach(function (d) {
-          scores[d] = (scores[d] || 0) + c.docs[d] * c.weight;
+          var dl = (tokens[d] && tokens[d].length) || 1;
+          scores[d] = (scores[d] || 0) + (c.docs[d] / dl) * w;   // normalised tf x idf
         });
       });
       var out = Object.keys(scores).map(function (d) { return { item: items[d], index: +d, score: scores[d] }; });
