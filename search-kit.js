@@ -6,7 +6,7 @@
  *   const idx = Search.index(rubrics, { keys: ["name", "remedies"] });
  *   idx.query("head bursting", { limit: 10, fuzzy: true });
  *
- * MIT License. (c) 2026 Dr Sohil Momin.
+ * PolyForm Noncommercial 1.0.0. (c) 2026 Dr Sohil Momin.
  */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
