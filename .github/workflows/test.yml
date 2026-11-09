@@ -27,3 +27,6 @@ jobs:
           node-version: "20"
       - name: Run tests
         run: node test-node.js
+
+      - name: The palette's keyboard handling
+        run: node tests/palette-keys.test.js

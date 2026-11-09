@@ -326,8 +326,13 @@ function palette(opts) {
     else if (e.key === "Enter" && shown[active]) { pick(shown[active]); e.preventDefault(); }
   }
   input.addEventListener("input", function () { active = 0; render(); });
+  // One handler, on the input. It used to be on the input AND on the wrapper, and
+  // a keydown on the input bubbles to the wrapper — so every arrow press moved the
+  // selection two rows and every Escape ran twice. The wrapper keeps a listener of
+  // its own for the one case the input cannot see: Escape while the focus is on
+  // the list rather than in the box.
   input.addEventListener("keydown", onKey);
-  wrap.addEventListener("keydown", onKey);
+  wrap.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   wrap.addEventListener("click", function (e) { if (e.target === wrap) close(); });
   // Ctrl-K / Cmd-K opens it. The handler is returned so the caller can remove it.
   var hotkey = function (e) {
